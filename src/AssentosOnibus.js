@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ThemeContext } from "./App";
 
 const Assento = (props) => {
     // Primeiro valor: variável que será alterada, Segundo valor: Função que irá alterar
@@ -19,14 +20,19 @@ const Assento = (props) => {
     }, [disabled]);
 
     return (
-        <button
-            className="assento"
-            type="button"
-            disabled={disabled}
-            onClick={() => handleClick()}
-        >
-            {disabled ? "X" : props.pos}
-        </button>
+        // Sintaxe de consumer, que pode ser trocada pelo hook useContext para uma sintaxe mais enxuta
+        <ThemeContext.Consumer>
+            {(value) => (
+                <button
+                    className="assento"
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => handleClick()}
+                >
+                    {disabled ? "X" : <span style={{color: value.color, fontFamily: value.font}}>{props.pos}</span>}
+                </button>
+            )}
+        </ThemeContext.Consumer>
     );
 };
 
